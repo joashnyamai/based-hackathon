@@ -1,0 +1,94 @@
+<!-- templates/index.html (Enhanced UI with Bootstrap) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MataChain</title>
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .card {
+      margin: 20px 0;
+    }
+    button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="text-center">
+      <h1>MataChain - Public Transportation</h1>
+      <p>Manage routes, fares, and driver earnings with blockchain transparency.</p>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Passenger Dashboard</h5>
+            <p class="card-text">Check available routes and fares.</p>
+            <button class="btn btn-primary" onclick="getPassengerData()">Get Routes</button>
+            <ul id="passenger-routes" class="list-group list-group-flush"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Driver Dashboard</h5>
+            <p class="card-text">Check route earnings and manage driver data.</p>
+            <button class="btn btn-primary" onclick="getDriverData()">Get Earnings</button>
+            <ul id="driver-routes" class="list-group list-group-flush"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap and JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    // Fetch passenger routes
+    function getPassengerData() {
+      fetch('/passenger-data')
+        .then(response => response.json())
+        .then(data => {
+          let list = document.getElementById('passenger-routes');
+          list.innerHTML = ''; // Clear list
+          data.forEach(route => {
+            let li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.textContent = `${route.route} - Fare: ${route.fare}`;
+            list.appendChild(li);
+          });
+        });
+    }
+
+    // Fetch driver routes
+    function getDriverData() {
+      fetch('/driver-data')
+        .then(response => response.json())
+        .then(data => {
+          let list = document.getElementById('driver-routes');
+          list.innerHTML = ''; // Clear list
+          data.forEach(route => {
+            let li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.textContent = `${route.route} - Earnings: ${route.earnings}`;
+            list.appendChild(li);
+          });
+        });
+    }
+  </script>
+</body>
+</html>
